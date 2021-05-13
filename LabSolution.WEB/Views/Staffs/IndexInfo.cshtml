@@ -1,0 +1,80 @@
+﻿@model PagedList.IPagedList<LabSolution.WEB.Models.StaffModel>
+@using PagedList.Mvc
+@using System.Text.RegularExpressions
+
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Danh sách nhân viên
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover table-full-width" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên</th>
+                            <th>Email</th>
+                            <th>Tel</th>
+                            <th class="center" style="width:18%">
+                                @Html.ActionLink("Add", "Insert", "Staffs", new { data_modal = "", @class = "fa fa-plus btn btn-success" })
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model == null || (Model != null && Model.Count() == 0))
+                        {
+                            <tr>
+                                <td colspan="5">
+                                    <span style="color: red; font:bold">Không tìm thấy bản ghi nào</span>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.PK_StaffID)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Email, new { @placeholder = "E-mail" })</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Tel)</td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", "Staffs", new { id = item.PK_StaffID }, new { data_modal = "", @class = "fa fa-edit btn btn-primary" })
+                                        @Html.ActionLink("Delete", "Delete", "Staffs", new { id = item.PK_StaffID }, new { data_toggle = "modal", @class = "fa fa-remove btn btn-danger" })
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                @if (Model.TotalItemCount > 0)
+                {
+                    <div class="pagingBox">
+                        <input id="HiddenPageSize" name="PageSize" type="hidden" />
+                        <input id="HiddenPage" name="Page" type="hidden" />
+
+                        @Html.PagedListPager(Model, page => Url.Action("IndexInfo", "Staffs",
+                        new
+                        {
+                            page,
+                            pageSize = ViewBag.PageSize,
+                            search = ViewBag.search
+                        }),
+                        PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
+                        new PagedListRenderOptions
+                        {
+                            MaximumPageNumbersToDisplay = 3
+                        },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            HttpMethod = "Get",
+                            UpdateTargetId = "StaffsGrid"
+                        }))
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

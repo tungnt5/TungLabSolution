@@ -1,0 +1,50 @@
+﻿@model LabSolution.WEB.Models.StaffModel
+@using System.Text.RegularExpressions
+
+@{
+    ViewBag.Title = "ConfirmCreate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Xác nhận thông tin</h3>
+<div>
+    <h4>Ấn nút OK để ghi thông tin vào DB</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <br />
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name):
+            </th>
+            <td>
+                @Regex.Replace(Model.Name, "<.*?>", String.Empty)
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Email):
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.Email, new { @placeholder = "E-mail" })
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Tel):
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.Tel)
+            </td>
+        </tr>
+    </table>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="OK" class="btn btn-default" />   @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    }
+</div>

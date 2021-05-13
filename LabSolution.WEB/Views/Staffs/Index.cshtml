@@ -1,0 +1,40 @@
+﻿@model LabSolution.WEB.Models.StaffInfoModel
+@using PagedList;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+@using (Ajax.BeginForm("IndexInfo", "Staffs", null, new AjaxOptions() { LoadingElementId = "", HttpMethod = "Get", UpdateTargetId = "StaffsGrid" }))
+{
+    <div class="panel-body">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        @using (Html.BeginForm("Index", "Staffs", FormMethod.Get))
+                        {
+                            <div class="row form-group">
+                                <div class="col-lg-12">
+                                    <div class="col-md-11">
+                                        <input type="text" value="@ViewBag.search" class="form-control" name="search" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="submit" class="btn btn-success">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="StaffsGrid">
+            @Html.Partial("IndexInfo", new StaticPagedList<LabSolution.WEB.Models.StaffModel>(Model.staffProfile, Convert.ToInt32(ViewBag.PageNumber), Convert.ToInt32(ViewBag.PageSize), Model.staffProfile.Count > 0 ? Model.staffProfile.FirstOrDefault().TotalCount : 0))
+        </div>
+    </div>
+}
