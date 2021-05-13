@@ -55,9 +55,14 @@ namespace LabSolution.WEB.Controllers
             try
             {
                 GlobalVariables.WebApiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Token"].ToString() + ":" + Session["UserName"].ToString());
-                HttpResponseMessage response = await GlobalVariables.WebApiClient.GetAsync($"Staffs/GetStaffs/{page}/{pageSize}/{search}");
 
-                if(response.IsSuccessStatusCode)
+                HttpResponseMessage response;
+                if (search == "")
+                    response = await GlobalVariables.WebApiClient.GetAsync($"Staffs/GetStaffs/{page}/{pageSize}/{search}");
+                else
+                    response = await GlobalVariables.WebApiClient.GetAsync($"Staffs/GetStaffs/{page}/{pageSize}?search={search}");
+
+                if (response.IsSuccessStatusCode)
                 {
                     staffs = response.Content.ReadAsAsync<List<StaffModel>>().Result;
 
@@ -76,7 +81,7 @@ namespace LabSolution.WEB.Controllers
         [ValidateInput(false)]
         public async Task<ActionResult> IndexInfo(int? page, int? pageSize, string search)
         {
-            List<StaffModel> staffs = new List<StaffModel>(); ;
+            List<StaffModel> staffs = new List<StaffModel>();
 
             page = page ?? 1;
             pageSize = pageSize ?? 3;
@@ -89,7 +94,13 @@ namespace LabSolution.WEB.Controllers
             try
             {
                 GlobalVariables.WebApiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Token"].ToString() + ":" + Session["UserName"].ToString());
-                HttpResponseMessage response = await GlobalVariables.WebApiClient.GetAsync($"Staffs/GetStaffs/{page}/{pageSize}/{search}");
+
+                HttpResponseMessage response;
+
+                if (search == "")
+                    response = await GlobalVariables.WebApiClient.GetAsync($"Staffs/GetStaffs/{page}/{pageSize}/{search}");
+                else
+                    response = await GlobalVariables.WebApiClient.GetAsync($"Staffs/GetStaffs/{page}/{pageSize}?search={search}");
 
                 if (response.IsSuccessStatusCode)
                 {

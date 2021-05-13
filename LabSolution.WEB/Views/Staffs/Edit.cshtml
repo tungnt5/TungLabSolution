@@ -39,7 +39,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Tel, htmlAttributes: new { @class = "control-label col-md-1" })
-            <div class="col-md-9">
+            <div class="col-md-5">
                 @Html.EditorFor(model => model.Tel, new { htmlAttributes = new { @maxlength = "14", @class = "form-control", @style = "display:inline" } })
                 @Html.ValidationMessageFor(model => model.Tel, "", new { @class = "text-danger", @style = "display:inline" })
             </div>
