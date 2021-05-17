@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using LabSolution.API.Controllers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 namespace LabSolution.UnitTest
@@ -7,8 +8,9 @@ namespace LabSolution.UnitTest
     public class UnitTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestMethod()
         {
+            
         }
     }
 }
