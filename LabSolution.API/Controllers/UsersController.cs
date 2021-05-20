@@ -57,7 +57,7 @@ namespace LabSolution.API.Controllers
 
             string passWordMD5 = Encryptor.MD5Hash(user.PassWord);
 
-            if(login == null)
+            if (login == null)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadGateway, message: "Không tìm thấy user thích hợp");
             }
@@ -65,6 +65,13 @@ namespace LabSolution.API.Controllers
             {
                 if(login.PassWord == passWordMD5)
                 {
+                    //var obj = new
+                    //{
+                    //    id = login.PK_UserID,
+                    //    username = login.UserName,
+                    //    token = TokenManager.GenerateToken(user.UserName),
+                    //};
+
                     return Request.CreateResponse(HttpStatusCode.OK, value: TokenManager.GenerateToken(user.UserName));
                 }
                 else

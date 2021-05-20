@@ -49,6 +49,7 @@ namespace LabSolution.WEB.Controllers
                 {
                     var result = response.Content.ReadAsStringAsync().Result;
                     tokenBased = JsonConvert.DeserializeObject<string>(result);
+
                     Session["Token"] = tokenBased;
                     Session["UserName"] = user.Username;
 

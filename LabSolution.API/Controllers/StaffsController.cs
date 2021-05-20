@@ -7,6 +7,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Web.Http;
 using System.Web.Http.Description;
 using LabSolution.Data.Models;
@@ -109,9 +110,9 @@ namespace LabSolution.API.Controllers
                 return StatusCode(HttpStatusCode.NoContent);
             }
 
-            staff.Name = t_Staffs.Name;
-            staff.Email = t_Staffs.Email;
-            staff.Tel = t_Staffs.Tel;
+            staff.Name = Regex.Replace(t_Staffs.Name.Trim(), "<.*?>", String.Empty);
+            staff.Email = t_Staffs.Email.Trim();
+            staff.Tel = t_Staffs.Tel.Trim();
             staff.UpdateBy = 1;
             staff.UpdateDate = DateTime.Now;
 
@@ -151,6 +152,10 @@ namespace LabSolution.API.Controllers
         [Route("Staffs/InsertStaff")]
         public IHttpActionResult InsertStaff(T_Staffs t_Staffs)
         {
+            t_Staffs.Name = Regex.Replace(t_Staffs.Name.Trim(), "<.*?>", String.Empty);
+            t_Staffs.Email = t_Staffs.Email.Trim();
+            t_Staffs.Tel = t_Staffs.Tel.Trim();
+
             t_Staffs.Status = true;
             t_Staffs.CreateBy = 1;
             t_Staffs.CreateDate = DateTime.Now;
