@@ -38,7 +38,7 @@ namespace LabSolution.API.Controllers
         [Route("Staffs/GetAllStaffs")]
         public IQueryable<T_Staffs> GetAllStaffs()
         {
-            return db.T_Staffs.Where(p => p.Status == true);
+            return db.T_Staffs.Where(p => p.Status == true).OrderByDescending(p => p.PK_StaffID);
         }
 
         /// <summary>Lấy danh sách staff theo page và search.</summary>
@@ -110,7 +110,9 @@ namespace LabSolution.API.Controllers
                 return StatusCode(HttpStatusCode.NoContent);
             }
 
-            staff.Name = Regex.Replace(t_Staffs.Name.Trim(), "<.*?>", String.Empty);
+            string name = Regex.Replace(t_Staffs.Name, "<.*?>", String.Empty);
+
+            staff.Name = name.Trim();
             staff.Email = t_Staffs.Email.Trim();
             staff.Tel = t_Staffs.Tel.Trim();
             staff.UpdateBy = 1;
@@ -152,7 +154,8 @@ namespace LabSolution.API.Controllers
         [Route("Staffs/InsertStaff")]
         public IHttpActionResult InsertStaff(T_Staffs t_Staffs)
         {
-            t_Staffs.Name = Regex.Replace(t_Staffs.Name.Trim(), "<.*?>", String.Empty);
+            string name = Regex.Replace(t_Staffs.Name.Trim(), "<.*?>", String.Empty);
+            t_Staffs.Name = name.Trim();
             t_Staffs.Email = t_Staffs.Email.Trim();
             t_Staffs.Tel = t_Staffs.Tel.Trim();
 
